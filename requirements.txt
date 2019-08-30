@@ -1,4 +1,4 @@
-gcc7==0.0.9
+gcc7
 inputs==0.1
 mss==3.2.0
 matplotlib==1.5.2
