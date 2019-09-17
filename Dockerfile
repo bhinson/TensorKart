@@ -1,4 +1,4 @@
-FROM rhscl/python-36-rhel7:latest
+FROM registry.redhat.io/rhscl/python-36-rhel7:latest
 EXPOSE 8080
 #Script that creates index file in run directory
 COPY create_index.sh /tmp/create_index.sh
