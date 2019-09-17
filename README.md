@@ -1,90 +1,159 @@
-TensorKart
-==========
+# Using this Project #
 
-self-driving MarioKart with TensorFlow
+The purpose of this project is to show how you can use GitHub and OpenShift to deploy code in a CI/CD fashion.  
 
-Driving a new (untrained) section of the Royal Raceway:
+>This is just one example, and was purposely kept simple.  If you look at Source 2 Image or Pipeline style build strategies there are much more robust examples for CI/CD utilizing source control management and integrating it with various other systems (ticketing, approval, test suites, etc)
 
-![RoyalRaceway.gif](https://media.giphy.com/media/1435VvCosVezQY/giphy.gif)
-
-Driving Luigi Raceway:
-
-[![LuigiRacewayVideo](/screenshots/luigi_raceway.png?raw=true)](https://youtu.be/vrccd3yeXnc)
-
-The model was trained with:
-* 4 races on Luigi Raceway
-* 2 races on Kalimari Desert
-* 2 races on Mario Raceway
-
-With even a small training set the model is sometimes able to generalize to a new track (Royal Raceway seen above).
+1.    Create a new project
+    
+        ```
+        oc new-project <project name>
+        ```
 
 
-Dependencies
-------------
-* `python` and `pip` then run `pip install -r requirements.txt`
-* `mupen64plus` (install via apt-get)
+2.  Create a secret 
+
+    a.  For SSH/GIT
+
+    ```
+    oc create secret generic <secret_name> \
+    --from-file=ssh-privatekey=<path_to_ssh_priv_key> \
+    --type=kubernetes.io/ssh-auth
+    ```
+
+    b.  For authenticated HTTPS either...
+
+    Using a token
+        
+    ```
+    oc create secret generic <secret_name> \
+    --from-literal=password=<your_token> \
+    --type=kubernetes.io/basic-auth
+    ```
+
+    Or using credentials
+    ```
+    oc create secret generic <secret_name> \
+    --from-literal=username=<username> \
+    --from-literal=password=<password> \
+    --type=kubernetes.io/basic-auth
+    ```
+
+3.  Give the 'builder' service account access to the credentials
+    ```
+    oc secrets link builder <secret_name>
+    ```
 
 
-Recording Samples
------------------
-1. Start your emulator program (`mupen64plus`) and run Mario Kart 64
-2. Make sure you have a joystick connected and that `mupen64plus` is using the sdl input plugin
-3. Run `record.py`
-4. Make sure the graph responds to joystick input.
-5. Position the emulator window so that the image is captured by the program (top left corner)
-6. Press record and play through a level. You can trim some images off the front and back of the data you collect afterwards (by removing lines in `data.csv`).
+4.  Create the App
 
-![record](/screenshots/record_setup.png?raw=true)
+    a.)  Using git/ssh
+    ```
+    oc new-app ssh://git@<git_host>/<project_path>#<branch> \
+    --name=<app_name> \
+    --source-secret=<secret_name>
+    ```
+    
+    
+    b.)  Using http/https (without authentication/public repos)
+    ```
+    oc new-app https://<git_host>/<project_path>#<branch> \
+    --name=<app_name>
+    ```
 
-Notes
-- the GUI will stop updating while recording to avoid any slow downs.
-- double check the samples, sometimes the screenshot is the desktop instead. Remove the appropriate lines from the `data.csv` file
+    c.)  Using http/https (with authentication/private repos)
 
+    ```
+    oc new-app https://<git_host>/<project_path>#<branch> \
+    --name=<app_name> \
+    --source-secret=<secret_name>
+    ```
 
-Viewing Samples
----------------
-Run `python utils.py viewer samples/luigi_raceway` to view the samples
-
-
-Preparing Training Data
------------------------
-Run `python utils.py prepare samples/*` with an array of sample directories to build an `X` and `y` matrix for training. (zsh will expand samples/* to all the directories. Passing a glob directly also works)
-
-`X` is a 3-Dimensional array of images
-
-`y` is the expected joystick ouput as an array:
-
-```
-  [0] joystick x axis
-  [1] joystick y axis
-  [2] button a
-  [3] button b
-  [4] button rb
-```
+    >  If using http/https for a private repo you will be prompted for credentials
 
 
-Training
---------
-The `train.py` program will train a model using Google's TensorFlow framework and cuDNN for GPU acceleration. Training can take a while (~1 hour) depending on how much data you are training with and your system specs. The program will save the model to disk when it is done.
+5.  Create a route to expose external traffic to your app
+    ```
+    oc expose svc/<app_name>
+    ```
 
 
-Play
-----
-The `play.py` program will use the [`gym-mupen64plus`](https://github.com/bzier/gym-mupen64plus) environment to execute the trained agent against the MarioKart environment. The environment will provide the screenshots of the emulator. These images will be sent to the model to acquire the joystick command to send. The AI joystick commands can be overridden by holding the 'LB' button on the controller.
+6.  Set resource limits for your deployment
+    ```
+    oc set resources dc/<app_name> \
+    --requests='cpu=10m' \
+    --limits='cpu=100m'
+    ```
+    >  These limits are very low so that scaling can be show in a demo environment (m=millicores=1/1000 cpu core)
 
+7.  Set a scaling policy for your app
+    ```
+    oc autoscale dc/test-app \
+    --min 1 \
+    --max 10 \
+    --cpu-percent 5
+    ```
+    
+    >This scale policy is very low again to show scaling in a demo environment
 
-Future Work / Ideas:
---------------------
-* Add a reinforcement layer based on lap time or other metrics so that the AI can start to teach itself now that it has a baseline. The environment currently provides a reward signal of `-1` per time-step, which gives the AI agent a metric to calculate its performance during each race (episode), the goal being to maximize reward and therefore, minimize overall race duration.
-* Could also have a shadow mode where the AI just draws out what it would do rather than sending actions. A real self driving car would have this and use it a lot before letting it take the wheel.
-* Deep learning is all about data; perhaps a community could form around collecting a large amount of data and pushing the performance of this AI.
+8.  Get the URI and secret used for GitHub webhooks
+    ```
+    oc describe bc/<app_name> | \
+    grep -A 1 'Webhook GitHub' | \
+    grep https | cut -f 3 -d$'\t'
+    ```
+    ```
+    oc get bc/<app_name> | \
+    grep -A 1 github: | \
+    cut -f 2 -d ':' | \
+    tr -d ' '
+    ```
+    >The URI provided in the 'oc describe' command will have a field shown as \<secret\>, replace that with the string obtained from the 'oc get' command
 
+9. Update GitHub to utilize your webhook
 
-Special Thanks To
------------------
-* https://github.com/SullyChen/Autopilot-TensorFlow
+    a.  From within the web interface of GitHub navigate to your repo
+    
+    b.  Click on the 'Settings' tab
+    
+    c.  Click on the 'Webhooks' sidebar
+    
+    d.  Click on the 'Add webhook' button
+    
+    e.  For the Payload URL enter in the URI from step 8 (remembering to replace the \<secret\> with your own secret)
+    
+    f.  Set content type to 'application/json'
+    
+    g.  For the 'Secret' field enter your secret from step 8
+    
+    h.  For the events section select the 'Just the push event'
+    
+    i.  Click 'Add webhook'
 
+10.  Profit (branches)
 
-Contributing
-------------
-Open a PR! I promise I am friendly :)
+        Now that you have it all configured, anytime there is a push event to the repo the webhook will trigger, which will cause OpenShift to re-build your app, and in the process pulling down the new code.
+
+        For bonus points you can do this across several branches of the same repository, and give each branch its own name and deployment (you can do this by following the steps above again).
+
+        When a pull request is approved/merged the upstream branch will automatically trigger its webhook as well and start a re-build.
+
+11.  Extra Profit (A/B)
+
+        If you have multiple branches and apps and want to do a blue-green deployment (for UAT, perhaps) we can spread the traffic across them.
+
+        ```
+        oc set route-backends <app_name_1> <app_name_1>=<weight> <app_name_2>=<weight> 
+        ```
+        > It is worth noting that in this instance traffic hitting the route for <app_name_1> will be split between the two environments depending on the weight, however traffic hitting the route for <app_name_2> will only hit the <app_name_2> environment (unless its route also has A/B routing configured)
+
+        Check your routes and weights for the app
+        ```
+        oc set route-backends <app_name_1>
+        ```
+
+        If you wish to adjust the weights you can do so with the --adjust option, ex:
+        ```
+        oc set route-backends <app_name_1> \
+        --adjust <app_name_1>=<weight> <app_name_2>=<weight>
+        ```
