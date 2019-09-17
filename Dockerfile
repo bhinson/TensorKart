@@ -1,4 +1,4 @@
-FROM python:3
+FROM centos:centos7
 EXPOSE 8080
 #Script that creates index file in run directory
 COPY create_index.sh /tmp/create_index.sh
@@ -10,6 +10,8 @@ RUN touch /tmp/index.html
 RUN chmod 777 /tmp/index.html
 #Change to non-priviledged user
 #USER 1001
+#RUN yum install python-pip
+#RUN pip3 install SimpleHTTPServer
 #Switch directories, run the script, then fire up the python test server
 CMD cd /tmp && bash create_index.sh && python -m SimpleHTTPServer 8080
 
