@@ -1,10 +1,10 @@
+project.settings
 django>=1.11,<1.12
 django-debug-toolbar==1.8
 gunicorn==19.4.5
 psycopg2==2.7.3.1
 whitenoise==3.3.1
 project
-project.settings
 gcc7
 inputs==0.1
 mss==3.2.0
