@@ -39,3 +39,5 @@ POD_INSTANCE_NAME=`oc get pods \
 
 # Run command in a container of the specified pod:
 oc exec -p "$POD_INSTANCE_NAME" -it -- bash -c "${@:-echo}"
+
+echo 'hello world' >> /tmp/somefile
