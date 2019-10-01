@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from os import system
+import os
 
 from welcome.views import index, health
 
