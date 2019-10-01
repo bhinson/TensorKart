@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from utils import resize_image, XboxController
 from termcolor import cprint
