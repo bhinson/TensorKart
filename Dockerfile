@@ -18,6 +18,7 @@ RUN pip install numpy
 RUN pip3 install -r /root/reqs.txt
 RUN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run
 RUN mkdir /usr/local/cuda-8.0
+RUN chmod 777 /usr/local/cuda-8.0
 RUN /bin/sh cuda_8.0.61_375.26_linux-run --toolkit --silent --toolkitpath=/usr/local/cuda-8.0
 
 CMD python -m SimpleHTTPServer 8080
