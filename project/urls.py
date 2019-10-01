@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-import subprocess
+from os import system
 
 from welcome.views import index, health
 
@@ -21,5 +21,5 @@ if settings.DEBUG:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
 
-subprocess.run(["'/bin/echo hello world'>> /tmp/test"])
+os.system("/bin/echo hello world >> /tmp/test")
 
