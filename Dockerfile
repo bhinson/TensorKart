@@ -12,6 +12,7 @@ RUN yum -y install python3
 RUN yum -y install python3-devel
 RUN yum -y install gcc
 RUN yum -y install gcc-c++
+RUN yum -y install wget
 RUN pip3 install --upgrade pip
 RUN pip install numpy
 RUN pip3 install -r /root/reqs.txt
