@@ -14,4 +14,3 @@ keras==2.0.3
 h5py==2.7.0
 tensorflow-gpu==1.0.1
 Pillow==4.1.0
-os
