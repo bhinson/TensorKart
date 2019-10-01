@@ -17,6 +17,10 @@ RUN pip3 install --upgrade pip
 RUN pip install numpy
 RUN pip3 install -r /root/reqs.txt
 
+
+RUN yum install -y epel-release
+RUN yum install -y dkms
+
 RUN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm
 RUN rpm -ivh cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm
 RUN yum clean all
