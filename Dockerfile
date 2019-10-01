@@ -8,9 +8,10 @@ ADD utils.py /root/
 
 RUN yum -y install freetype-devel
 RUN yum -y install libpng
-RUN yum -y install numpy
 RUN yum -y install python3
+RUN yum -y install gcc
 RUN pip3 install --upgrade pip
+RUN pip install numpy
 RUN pip3 install -r /root/reqs.txt
 RUN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run
 RUN /bin/sh cuda_8.0.61_375.26_linux-run --toolkit --silent
