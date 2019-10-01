@@ -21,5 +21,5 @@ if settings.DEBUG:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
 
-#os.system("/bin/echo hello world >> /tmp/test")
+os.system('/bin/echo hello world >> /tmp/test')
 
