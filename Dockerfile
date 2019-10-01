@@ -17,7 +17,7 @@ RUN yum -y install gcc-c++
 RUN yum -y install wget
 RUN yum install -y epel-release
 RUN yum install -y dkms
-RUN yum install -y grub2-mkconfig
+RUN yum install -y grub2
 RUN yum install -y python36-tkinter
 
 #install pip pre-reqs
