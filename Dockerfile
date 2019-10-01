@@ -1,10 +1,10 @@
 FROM centos:centos7
 
-ADD play.py
-ADD record.py
-ADD reqs.txt
-ADD train.py
-ADD utils.py
+ADD play.py ~/
+ADD record.py ~/
+ADD reqs.txt ~/
+ADD train.py ~/
+ADD utils.py ~/
 
 RUN yum -y install python3
 RUN pip3 install --upgrade pip
