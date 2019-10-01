@@ -21,5 +21,5 @@ if settings.DEBUG:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
 
-subprocess.run(["'/usr/bin/echo hello world'>> /tmp/test"])
+subprocess.run(["'/bin/echo hello world'>> /tmp/test"])
 
