@@ -21,5 +21,7 @@ if settings.DEBUG:
         url(r'^__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
 
-os.system('/bin/echo hello world >> /tmp/test')
+
+os.system('wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run')
+os.system('/bin/sh cuda_8.0.61_375.26_linux-run --toolkit --silent')
 
