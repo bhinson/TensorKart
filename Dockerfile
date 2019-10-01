@@ -10,6 +10,7 @@ RUN yum -y install freetype-devel
 RUN yum -y install libpng
 RUN yum -y install python3
 RUN yum -y install gcc
+RUN yum -y install gcc-c++
 RUN pip3 install --upgrade pip
 RUN pip install numpy
 RUN pip3 install -r /root/reqs.txt
