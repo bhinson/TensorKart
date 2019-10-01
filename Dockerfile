@@ -6,6 +6,8 @@ ADD reqs.txt /root/
 ADD train.py /root/
 ADD utils.py /root/
 
+RUN yum -y install freetype-devel
+RUN yum -y install libpng
 RUN yum -y install python3
 RUN pip3 install --upgrade pip
 RUN pip3 install -r /root/reqs.txt
