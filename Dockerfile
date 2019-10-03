@@ -8,8 +8,8 @@ ADD train.py /root/
 ADD utils.py /root/
 
 #install pre-reqs
-RUN yum -y install freetype-devel libpng gcc gcc-c++ wget epel-release dkms grub2 make
-RUN yum -y install
+RUN yum -y install freetype-devel libpng gcc gcc-c++ wget epel-release dkms grub2 make centos-release-scl rh-python35
+RUN yum -y groupinstall 'Development Tools'
 #RUN yum -y install python3
 #RUN yum -y install python3-devel
 #RUN yum -y install gcc
@@ -22,18 +22,17 @@ RUN yum install -y python3-tkinter
 #RUN yum install -y make
 
 
-RUN wget https://www.python.org/ftp/python/3.5.7/Python-3.5.7.tgz -O /root/Python-3.5.7.tgz
-RUN tar -zxvf /root/Python-3.5.7.tgz
-RUN cd /Python-3.5.7 && ./configure && make && make altinstall
-RUN ln -sf /usr/local/bin/python3.5 /usr/bin/python3
+
+RUN scl enable rh-python35 pip3 install --upgrade pip
+
+RUN scl enable rh-python35 pip3 install -r /root/reqs.txt
 
 
 
 
 #install pip pre-reqs
-RUN pip3 install --upgrade pip
-RUN pip install numpy
-RUN pip3 install -r /root/reqs.txt
+#RUN pip3 install --upgrade pip
+#RUN pip3 install -r /root/reqs.txt
 
 #install cuda libs
 
