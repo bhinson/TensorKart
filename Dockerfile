@@ -22,10 +22,8 @@ RUN yum install -y python3-tkinter
 
 RUN wget https://www.python.org/ftp/python/3.5.7/Python-3.5.7.tgz -O /root/Python-3.5.7.tgz
 RUN tar -zxvf /root/Python-3.5.7.tgz
-RUN cd /Python-3.5.7
-RUN sh ./configure
-RUN make
-RUN make altinstall
+RUN cd /Python-3.5.7 && ./configure && make && make altinstall
+
 
 
 #install pip pre-reqs
