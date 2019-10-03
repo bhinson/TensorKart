@@ -39,7 +39,7 @@ RUN sh /root/cuda_8.0.61_375.26_linux-run --toolkit --silent
 
 
 RUN mkdir /root/data
-RUN wget https://www.dropbox.com/sh/3ryoylmp8rufo4d/AABEKUGBR4yKhiRimLbXlQfHa?dl=0 -O /root/data/X.npy
+RUN wget https://www.dropbox.com/s/x0orqhrfihf6hsz/x.npy?dl=0 -O /root/data/X.npy
 RUN wget https://www.dropbox.com/s/w7ckfpjac9ckkuw/y.npy?dl=0 -O /root/data/y.npy
 
 
