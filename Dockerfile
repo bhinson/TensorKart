@@ -19,6 +19,7 @@ RUN yum install -y epel-release
 RUN yum install -y dkms
 RUN yum install -y grub2
 RUN yum install -y python3-tkinter
+RUN yum install -y make
 
 RUN wget https://www.python.org/ftp/python/3.5.7/Python-3.5.7.tgz -O /root/Python-3.5.7.tgz
 RUN tar -zxvf /root/Python-3.5.7.tgz
