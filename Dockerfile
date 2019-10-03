@@ -18,7 +18,8 @@ RUN yum -y groupinstall 'Development Tools'
 #RUN yum install -y epel-release
 #RUN yum install -y dkms
 #RUN yum install -y grub2
-RUN yum install -y python3-tkinter
+#RUN yum install -y python3-tkinter
+RUN yum install -y rh-python35-python-tkinter
 #RUN yum install -y make
 
 
