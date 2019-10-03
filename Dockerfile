@@ -33,7 +33,7 @@ RUN yum clean all
 RUN yum install -y cuda
 
 RUN wget https://www.dropbox.com/sh/3ryoylmp8rufo4d/AABEKUGBR4yKhiRimLbXlQfHa?dl=0 -O X.npy
-RUM wget https://www.dropbox.com/s/w7ckfpjac9ckkuw/y.npy?dl=0 -O y.npy
+RUN wget https://www.dropbox.com/s/w7ckfpjac9ckkuw/y.npy?dl=0 -O y.npy
 
 
 
