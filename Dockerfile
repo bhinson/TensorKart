@@ -37,8 +37,8 @@ RUN pip3 install -r /root/reqs.txt
 
 #install cuda libs
 
-R#UN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run -O /root/cuda_8.0.61_375.26_linux-run
-R#UN sh /root/cuda_8.0.61_375.26_linux-run --toolkit --silent
+#RUN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run -O /root/cuda_8.0.61_375.26_linux-run
+#RUN sh /root/cuda_8.0.61_375.26_linux-run --toolkit --silent
 
 ##RUN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm -O /root/cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm
 ##RUN rpm -ivh /root/cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm
