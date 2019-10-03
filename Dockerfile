@@ -9,7 +9,7 @@ ADD utils.py /root/
 
 #install pre-reqs
 RUN yum -y install freetype-devel libpng gcc gcc-c++ wget epel-release dkms grub2 make centos-release-scl
-RUN yum -y rh-python35 rh-python35-python-tkinter
+RUN yum -y install rh-python35 rh-python35-python-tkinter
 RUN yum -y groupinstall 'Development Tools'
 #RUN yum -y install python3
 #RUN yum -y install python3-devel
