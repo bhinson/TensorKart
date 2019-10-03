@@ -8,18 +8,18 @@ ADD train.py /root/
 ADD utils.py /root/
 
 #install pre-reqs
-RUN yum -y install freetype-devel
-RUN yum -y install libpng
+RUN yum -y install freetype-devel libpng gcc gcc-c++ wget epel-release dkms grub2 make
+RUN yum -y install
 #RUN yum -y install python3
 #RUN yum -y install python3-devel
-RUN yum -y install gcc
-RUN yum -y install gcc-c++
-RUN yum -y install wget
-RUN yum install -y epel-release
-RUN yum install -y dkms
-RUN yum install -y grub2
+#RUN yum -y install gcc
+#RUN yum -y install gcc-c++
+#RUN yum -y install wget
+#RUN yum install -y epel-release
+#RUN yum install -y dkms
+#RUN yum install -y grub2
 RUN yum install -y python3-tkinter
-RUN yum install -y make
+#RUN yum install -y make
 
 
 RUN wget https://www.python.org/ftp/python/3.5.7/Python-3.5.7.tgz -O /root/Python-3.5.7.tgz
