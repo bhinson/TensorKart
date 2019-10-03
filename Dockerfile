@@ -26,14 +26,18 @@ RUN pip install numpy
 RUN pip3 install -r /root/reqs.txt
 
 #install cuda libs
-RUN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm
-RUN rpm -ivh cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm
-RUN yum clean all
-RUN yum install -y cuda
 
-RUN mkdir data
-RUN wget https://www.dropbox.com/sh/3ryoylmp8rufo4d/AABEKUGBR4yKhiRimLbXlQfHa?dl=0 -O data/X.npy
-RUN wget https://www.dropbox.com/s/w7ckfpjac9ckkuw/y.npy?dl=0 -O data/y.npy
+RUN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run -O /root/cuda_8.0.61_375.26_linux-run
+RUN sh cuda_8.0.61_375.26_linux-run --toolkit --silent
+
+#RUN wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm -O /root/cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm
+#RUN rpm -ivh /root/cuda-repo-rhel7-8-0-local-ga2-8.0.61-1.x86_64-rpm
+#RUN yum clean all
+#RUN yum install -y cuda
+
+RUN mkdir /root/data
+RUN wget https://www.dropbox.com/sh/3ryoylmp8rufo4d/AABEKUGBR4yKhiRimLbXlQfHa?dl=0 -O /root/data/X.npy
+RUN wget https://www.dropbox.com/s/w7ckfpjac9ckkuw/y.npy?dl=0 -O /root/data/y.npy
 
 
 
