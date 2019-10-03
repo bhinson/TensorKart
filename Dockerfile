@@ -24,9 +24,9 @@ RUN yum install -y rh-python35-python-tkinter
 
 
 
-RUN scl enable rh-python35 pip3 install --upgrade pip
+RUN scl enable rh-python35 "pip3 install --upgrade pip"
 
-RUN scl enable rh-python35 pip3 install -r /root/reqs.txt
+RUN scl enable rh-python35 "pip3 install -r /root/reqs.txt"
 
 
 
