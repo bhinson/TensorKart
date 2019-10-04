@@ -34,7 +34,7 @@ RUN pip3 install -r /root/reqs.txt
 
 
 #install cuda libs
-RUN wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.168_418.67_linux.run
+RUN wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.168_418.67_linux.run -O /root/cuda_10.1.168_418.67_linux.run
 RUN sh /root/cuda_10.1.168_418.67_linux.run --toolkit --silent
 
 #CUDA 8
