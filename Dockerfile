@@ -27,6 +27,7 @@ RUN yum -y groupinstall 'Development Tools'
 
 #install python pre-reqs
 RUN pip3 install --upgrade pip
+RUN pip3 install numpy
 RUN pip3 install -r /root/reqs.txt
 
 
