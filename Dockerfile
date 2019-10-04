@@ -8,8 +8,8 @@ ADD train.py /root/
 ADD utils.py /root/
 
 #install pre-reqs
-RUN yum -y install freetype-devel libpng gcc gcc-c++ wget epel-release dkms grub2 make centos-release-scl
-RUN yum -y install rh-python35 rh-python35-python-tkinter
+RUN yum -y install freetype-devel libpng gcc gcc-c++ wget epel-release dkms grub2 make centos-release-scl python3 python3-devel python3-tkinter
+#RUN yum -y install rh-python35 rh-python35-python-tkinter
 RUN yum -y groupinstall 'Development Tools'
 #RUN yum -y install python3
 #RUN yum -y install python3-devel
@@ -26,8 +26,8 @@ RUN yum -y groupinstall 'Development Tools'
 
 
 #install python pre-reqs
-RUN scl enable rh-python35 "pip3 install --upgrade pip"
-RUN scl enable rh-python35 "pip3 install -r /root/reqs.txt"
+RUN pip3 install --upgrade pip
+RUN pip3 install -r /root/reqs.txt
 
 
 
