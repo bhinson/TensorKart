@@ -12,5 +12,6 @@ scikit-image==0.12.3
 termcolor==1.1.0
 keras==2.0.3
 h5py==2.7.0
-tensorflow-gpu==1.0.1
+tensorflow-gpu==1.14.0
 Pillow==4.1.0
+setuptools==41.2.0
