@@ -35,7 +35,7 @@ RUN pip3 install -r /root/reqs.txt
 
 #install cuda 10.0 libs
 RUN wget https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/cuda_10.0.130_410.48_linux -O /root/cuda_10.0.130_410.48_linux --quiet
-RUN sh /root/cuda_10.0.130_410.48_linux --silent --toolkit --toolkitpath=/usr/local/cuda-10.0 --installpath=/usr/local/cuda-10.0
+RUN sh /root/cuda_10.0.130_410.48_linux --silent --toolkit --toolkitpath=/usr/local/cuda-10.0
 
 #install cuda 10.1 libs
 #RUN wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.168_418.67_linux.run -O /root/cuda_10.1.168_418.67_linux.run --quiet
