@@ -27,7 +27,7 @@ else:
     import ttk
     import tkMessageBox
 
-from utils import Screenshot, XboxController
+from tensor.utils import Screenshot, XboxController
 
 IMAGE_SIZE = (320, 240)
 IDLE_SAMPLE_RATE = 1500
