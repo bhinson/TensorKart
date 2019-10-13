@@ -16,14 +16,14 @@ ADD flask/main.py root/flask/
 
 
 #install pre-reqs
-RUN yum -y install freetype-devel libpng gcc gcc-c++ wget epel-release dkms grub2 make centos-release-scl python3 python3-devel python3-tkinter
+RUN yum -y install freetype-devel libpng gcc gcc-c++ wget epel-release dkms grub2 make centos-release-scl python3 python3-devel python3-tkinter shutil
 #RUN yum -y install rh-python35 rh-python35-python-tkinter
 RUN yum -y groupinstall 'Development Tools'
 
 
 #install python pre-reqs
 RUN pip3 install --upgrade pip
-RUN pip3 install numpy flask shutil
+RUN pip3 install numpy flask
 RUN pip3 install -r /root/reqs.txt
 
 
