@@ -13,17 +13,24 @@ RUN mkdir /root/flask
 ADD flask/app.py root/flask/
 ADD flask/main.py root/flask/
 
+RUN mkdir /root/downloads
+RUN chmod 777 /root/downloads
+RUN mkdir /root/results
+RUN chmod 777 /root/results
+RUN mkdir /root/processing
+RUN chmod 777 /root/processing
+RUN mkdir /root/processed
+RUN chmod 777 /root/processed
 
 
 #install pre-reqs
 RUN yum -y install freetype-devel libpng gcc gcc-c++ wget epel-release dkms grub2 make centos-release-scl python3 python3-devel python3-tkinter shutil
-#RUN yum -y install rh-python35 rh-python35-python-tkinter
 RUN yum -y groupinstall 'Development Tools'
 
 
 #install python pre-reqs
 RUN pip3 install --upgrade pip
-RUN pip3 install numpy flask kafka
+RUN pip3 install numpy flask kafka app requests
 RUN pip3 install -r /root/reqs.txt
 
 
@@ -45,4 +52,4 @@ RUN wget https://www.dropbox.com/s/w7ckfpjac9ckkuw/y.npy?dl=0 -O /root/data/y.np
 
 
 
-CMD python3 /root/flask/main.py
+CMD python3 - u /root/flask/main.py

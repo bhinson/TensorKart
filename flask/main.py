@@ -1,48 +1,77 @@
 import os
-# import magic
-import urllib.request
-import shutil, kafka, logging
-from app import app
-from flask import Flask, flash, request, redirect, render_template, abort, send_file, jsonify
-from werkzeug.utils import secure_filename
+import urllib.request, requests
+import shutil, kafka, logging, time, datetime
 
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'npy'])
+def main_loop():
+    files = []
+    print('Streams initiated...')
+    while True:
+        consumer_received = kafka.KafkaConsumer('file-received', bootstrap_servers='my-cluster-kafka-bootstrap:9092', consumer_timeout_ms=10000)
+        for message in consumer_received:
+            str_message = bytes.decode(message.value)
+            print(str_message)
+            #if its stupid but it works...  well this is still stupid
+            filename = str(str_message.split(': ')[1:])
+            filename = filename.replace("'", '')
+            filename = filename.replace('[', '')
+            filename = filename.replace(']', '')
+            files.append(filename)
+
+            if len(files) == 2:
+                get_files(files)
+                files = []
 
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+def get_files(files):
+    for file in files:
+        print('retrieving file from dropoff pod ' + file)
+        baseurl = "http://dropoff-marlowkart.apps.lakitu.hosted.labgear.io/files/"
+        url = baseurl + file
+        dlpath = '/root/downloads/'
+        dlpathwithfile = dlpath + file
+        r = requests.get(url)
+        open(dlpathwithfile, 'wb').write(r.content)
+
+    process_training_files(files)
+    pass
 
 
+def process_training_files(files):
+    dlpath = '/root/downloads/'
+    processingpath = '/root/processing/'
+    processedpath = '/root/processed/'
+    for file in files:
+        shutil.move(dlpath + file, processingpath + file)
 
-@app.route('/api-upload', methods=['POST'])
-def api_upload_file():
-    # check if the post request has the file part
-    if 'file' not in request.files:
-        resp = jsonify({'message' : 'No file part in the request'})
-        resp.status_code = 400
-        return resp
-    file = request.files['file']
-    if file.filename == '':
-        resp = jsonify({'message' : 'No file selected for uploading'})
-        resp.status_code = 400
-        return resp
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        resp = jsonify({'message' : 'File successfully uploaded'})
-        resp.status_code = 201
-        return resp
+
+    #for timestamping results file
+    now = datetime.datetime.now()
+    dt_string = now.strftime("%d%m%Y-%H%M%S")
+
+    #issue ML commands
+    #####JUST A STUBOUT
+    temp_file = open("/root/results/results--" + dt_string + '.txt', "w")
+    temp_file.write("This is an empty results file")
+    temp_file.close()
+    results_file = 'results--' + dt_string + '.txt'
+    ###end stubout
+
+    send_file(results_file)
+    pass
+
+
+def send_file(file):
+    uploadapiurl = 'http://dropoff-marlowkart.apps.lakitu.hosted.labgear.io/api-upload'
+    resultsbasepath = '/root/results/'
+    resultsfullpath = resultsbasepath + str(file)
+    myfile = {'file': open(resultsfullpath, 'rb')}
+    response = requests.post(uploadapiurl, files=myfile)
+    if response.status_code == 201:
+        print('results file ' + file + ' successfully sent to dropoff pod')
     else:
-        resp = jsonify({'message' : 'Allowed file types are txt, pdf, png, jpg, jpeg, gif'})
-        resp.status_code = 400
-        return resp
-
-
-@app.route('/learn', methods=['POST'])
-def commence_learning():
-    return redirect('/')
-
+        print('something went wrong, try again')
+    pass
 
 if __name__ == "__main__":
-    producer = kafka.KafkaProducer(bootstrap_servers='my-cluster-kafka-bootstrap:9092')
-    app.run(host='0.0.0.0')
+    main_loop()
+
