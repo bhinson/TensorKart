@@ -1,10 +1,10 @@
 FROM centos:centos7
 
 #add my files
+ADD reqs.txt /root
 RUN mkdir /root/tensor
 ADD tensor/play.py /root/tensor/
 ADD tensor/record.py /root/tensor/
-ADD tensor/reqs.txt /root/tensor/
 ADD tensor/train.py /root/tensor/
 ADD tensor/utils.py /root/tensor/
 RUN mkdir /root/uploads/
