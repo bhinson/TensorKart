@@ -40,7 +40,7 @@ def api_upload_file():
 
 @app.route('/learn', methods=['POST'])
 def commence_learning():
-
+    return redirect('/')
 
 
 if __name__ == "__main__":
