@@ -23,7 +23,7 @@ RUN yum -y groupinstall 'Development Tools'
 
 #install python pre-reqs
 RUN pip3 install --upgrade pip
-RUN pip3 install numpy flask
+RUN pip3 install numpy flask kafka
 RUN pip3 install -r /root/reqs.txt
 
 
