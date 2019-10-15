@@ -38,8 +38,7 @@ def get_files(files):
 
 def process_training_files(files):
     dlpath = '/root/downloads/'
-    processingpath = '/root/processing/'
-    processedpath = '/root/processed/'
+    processingpath = '/root/data/'
     for file in files:
         shutil.move(dlpath + file, processingpath + file)
 
@@ -50,6 +49,7 @@ def process_training_files(files):
 
     #issue ML commands
     #####JUST A STUBOUT
+    subprocess.run()
     temp_file = open("/root/results/results--" + dt_string + '.txt', "w")
     temp_file.write("This is an empty results file")
     temp_file.close()
