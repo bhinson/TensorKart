@@ -49,7 +49,16 @@ def process_training_files(files):
 
     #issue ML commands
     #####JUST A STUBOUT
-    subprocess.run()
+    subprocess.run('/root/tensor/train.py')
+
+
+    ###GRAB screen output?
+
+    ###GRAB file output and send back
+
+
+
+
     temp_file = open("/root/results/results--" + dt_string + '.txt', "w")
     temp_file.write("This is an empty results file")
     temp_file.close()
