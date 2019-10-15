@@ -48,8 +48,8 @@ RUN tar -C /usr/local/ -xzf /root/cudnn-10.0-linux-x64-v7.6.4.38.tgz
 
 
 RUN mkdir /root/data
-RUN wget https://www.dropbox.com/s/x0orqhrfihf6hsz/x.npy?dl=0 -O /root/data/X.npy --quiet
-RUN wget https://www.dropbox.com/s/w7ckfpjac9ckkuw/y.npy?dl=0 -O /root/data/y.npy --quiet
+RUN wget https://www.dropbox.com/s/x0orqhrfihf6hsz/x.npy?dl=0 -O /root/tensor/data/X.npy --quiet
+RUN wget https://www.dropbox.com/s/w7ckfpjac9ckkuw/y.npy?dl=0 -O /root/tensor/data/y.npy --quiet
 
 
 
